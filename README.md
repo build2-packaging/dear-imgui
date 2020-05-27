@@ -11,7 +11,8 @@ $ pkg install glfw vulkan-header vulkan-loader
 $ git clone https://github.com/build2-packaging/dear-imgui
 $ pushd dear-imgui/
 $ bdep -init -C @clang10 cc cxx.coptions="-Ofast -flto -Wall -Wextra"
-$ bdep libimgui-glfw-vulkan/
+# should launch the demo app under `libimgui-glfw-vulkan/tests/demo/driver.cpp`
+$ b libimgui-glfw-vulkan/
 ```
 
 ## usage
