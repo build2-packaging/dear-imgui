@@ -1,0 +1,3 @@
+import libs = libimgui-glfw-vulkan%lib{imgui-glfw-vulkan}
+
+exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}

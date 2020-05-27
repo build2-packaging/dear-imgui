@@ -1,0 +1,12 @@
+: 1
+name: libimgui
+version: 1.76.0-a.0.z
+project: dear-imgui
+summary: imgui C++ library
+license: proprietary
+description-file: README.md
+url: https://example.org/dear-imgui
+email: mb@64k.by
+depends: * build2 >= 0.12.0
+depends: * bpkg >= 0.12.0
+#depends: libhello ^1.0.0

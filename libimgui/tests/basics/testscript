@@ -1,0 +1,4 @@
+: prints-version
+$* >>EOO == 0
+imgui.version = 1.76.0
+EOO
