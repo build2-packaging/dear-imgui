@@ -3,7 +3,7 @@ name: libimgui
 version: 1.76.0-a.0.z
 project: dear-imgui
 summary: imgui C++ library
-license: proprietary
+license: MIT
 description-file: README.md
 url: https://example.org/dear-imgui
 email: mb@64k.by
