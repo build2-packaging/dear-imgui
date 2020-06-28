@@ -2,7 +2,7 @@ int_libs = # Interface dependencies.
 imp_libs = # Implementation dependencies.
 
 import int_libs += libimgui%lib{imgui}
-import imp_libs += libglfw%lib{glfw}
+import imp_libs += libglfw%lib{glfw3}
 import imp_libs += libvulkan%lib{vulkan}
 
 lib{imgui-glfw-vulkan}: {hxx ixx txx cxx}{** -version-glfw-vulkan} hxx{version-glfw-vulkan} $imp_libs $int_libs
