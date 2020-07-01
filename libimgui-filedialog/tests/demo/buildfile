@@ -1,0 +1,20 @@
+import libs = libimgui-glfw-opengl3%lib{imgui-glfw-opengl3}
+
+exe{driver}: {hxx ixx txx cxx}{**} $libs testscript{**}
+
+switch $cxx.class
+{
+  case 'gcc'
+  {
+    # Disable warnings that pop up with -Wall -Wextra. Upstream doesn't seem
+    # to care about these and it is not easy to disable specific warnings in a
+    # way that works across compilers/version (some -Wno-* options are only
+    # recognized in newer versions). There are still some warnings left that
+    # appear for certain platforms/compilers. We pass them through but disable
+    # treating them as errors.
+    #
+    cxx.coptions += -Wno-all -Wno-extra -Wno-pedantic -Wno-error
+    if ( $cxx.id == 'clang' )
+      cxx.coptions += -Wno-everything
+  }
+}

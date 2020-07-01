@@ -1,0 +1,14 @@
+: 1
+name: libimgui-glfw-vulkan
+version: 1.76.0-a.0.z
+project: dear-imgui
+summary: imgui-glfw-vulkan C++ library
+license: MIT
+description-file: README.md
+url: https://github.com/ocornut/imgui
+email: mb@64k.by
+depends: * build2 >= 0.12.0
+depends: * bpkg >= 0.12.0
+depends: libimgui
+requires: glfw
+requires: vulkan

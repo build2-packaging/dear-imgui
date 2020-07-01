@@ -1,0 +1,69 @@
+int_libs = # Interface dependencies.
+imp_libs = # Implementation dependencies.
+
+import int_libs += libimgui%lib{imgui}
+
+lib{imgui-filedialog}: {hxx ixx txx cxx}{** -version-filedialog} hxx{version-filedialog} $imp_libs $int_libs
+
+# Include the generated version header into the distribution (so that we don't
+# pick up an installed one) and don't remove it when cleaning in src (so that
+# clean results in a state identical to distributed).
+#
+hxx{version-filedialog}: in{version-filedialog} $src_root/manifest
+{
+  dist  = true
+  clean = ($src_root != $out_root)
+}
+
+switch $cxx.class
+{
+  case 'gcc'
+  {
+    # Disable warnings that pop up with -Wall -Wextra. Upstream doesn't seem
+    # to care about these and it is not easy to disable specific warnings in a
+    # way that works across compilers/version (some -Wno-* options are only
+    # recognized in newer versions). There are still some warnings left that
+    # appear for certain platforms/compilers. We pass them through but disable
+    # treating them as errors.
+    #
+    cxx.coptions += -Wno-all -Wno-extra -Wno-pedantic -Wno-error
+    if ( $cxx.id == 'clang' )
+      cxx.coptions += -Wno-everything
+  }
+}
+
+# Build options.
+#
+cxx.poptions =+ "-I$out_root" "-I$src_root" "-I$src_base" "-DVK_PROTOTYPES"
+
+obja{*}: cxx.poptions += -DLIBIMGUI_FILEDIALOG_STATIC_BUILD
+objs{*}: cxx.poptions += -DLIBIMGUI_FILEDIALOG_SHARED_BUILD
+
+# Export options.
+#
+lib{imgui-filedialog}:
+{
+  cxx.export.poptions = "-I$out_root" "-I$src_root" "-I$src_base" "-DVK_PROTOTYPES"
+  cxx.export.libs = $int_libs $imp_libs
+}
+
+liba{imgui-filedialog}: cxx.export.poptions += -DLIBIMGUI_FILEDIALOG_STATIC
+libs{imgui-filedialog}: cxx.export.poptions += -DLIBIMGUI_FILEDIALOG_SHARED
+
+# For pre-releases use the complete version to make sure they cannot be used
+# in place of another pre-release or the final version. See the version module
+# for details on the version.* variable values.
+#
+if $version.pre_release
+  lib{imgui-filedialog}: bin.lib.version = @"-$version.project_id"
+else
+  lib{imgui-filedialog}: bin.lib.version = @"-$version.major.$version.minor"
+
+# Install into the libimgui-glfw-vulkan/ subdirectory of, say, /usr/include/
+# recreating subdirectories.
+#
+{hxx ixx txx}{*}:
+{
+  install         = include/imgui/
+  install.subdirs = true
+}
